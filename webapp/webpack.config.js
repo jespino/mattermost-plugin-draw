@@ -19,13 +19,43 @@ module.exports = {
                 use: {
                     loader: 'babel-loader',
                     options: {
-                        presets: ['env', 'react'],
+                        presets: ['@babel/env', '@babel/react'],
                         plugins: [
                             'transform-class-properties',
-                            'transform-object-rest-spread',
+                            'babel-plugin-react-css-modules',
                         ],
                     },
                 },
+            },
+            {
+                test: /\.css$/,
+                exclude: /node_modules/,
+                use: [
+                    'style-loader',
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            importLoaders: 1,
+                            modules: true,
+                            localIdentName: '[path]___[name]__[local]___[hash:base64:5]',
+                        },
+                    },
+                ],
+            },
+            {
+                test: /\.(png|eot|tiff|svg|woff2|woff|ttf|gif|mp3|jpg)$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: 'files/[hash].[ext]',
+                        },
+                    },
+                    {
+                        loader: 'image-webpack-loader',
+                        options: {},
+                    },
+                ],
             },
         ],
     },

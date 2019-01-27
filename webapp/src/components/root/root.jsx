@@ -5,6 +5,8 @@ import {CirclePicker} from 'react-color';
 
 import ReactPaint from '../paint';
 
+import styles from './root.css';
+
 function dataURItoFile(dataURI) {
     var byteString = atob(dataURI.split(',')[1]);
     var ab = new ArrayBuffer(byteString.length);
@@ -97,7 +99,6 @@ export default class Root extends React.Component {
     }
 
     render() {
-        const style = getStyle();
         const {visible, close} = this.props;
         return (
             <Modal
@@ -127,26 +128,24 @@ export default class Root extends React.Component {
                             '#ff5722', '#795548',
                         ]}
                     />
-                    <div style={style.brushWidthContainer}>
+                    <div className={styles.brushWidthContainer}>
                         <input
                             type='file'
                             onChange={this.handleImage}
-                            style={{display: 'none'}}
                             ref={this.inputFileRef}
                         />
                         <i
                             className="fa fa-picture-o"
-                            style={{fontSize: '20px', marginRight: '10px', cursor: 'pointer'}}
                             onClick={() => this.inputFileRef.current.click()}
                         />
-                        <span style={style.brushWidthText}>{'Brush Width:'}</span>
+                        <span>{'Brush Width:'}</span>
                         <input
                             type='number'
                             value={this.state.lineWidth}
                             onChange={this.setLineWidth}
                             max={50}
                             min={1}
-                            style={style.number}
+                            className={styles.number}
                         />
                         <input
                             type='range'
@@ -154,16 +153,10 @@ export default class Root extends React.Component {
                             onChange={this.setLineWidth}
                             max={50}
                             min={1}
-                            style={style.range}
+                            className={styles.range}
                         />
                     </div>
-                    <div
-                        style={{
-                            maxWidth: 565,
-                            maxHeight: 410,
-                            overflow: 'auto',
-                        }}
-                    >
+                    <div className={styles.paintContainer}>
                         <ReactPaint
                             ref={this.paintRef}
                             brushCol={this.state.brushColor.hex ? this.state.brushColor.hex : '#000000'}
@@ -194,24 +187,3 @@ export default class Root extends React.Component {
         );
     }
 }
-
-const getStyle = () => ({
-    brushWidthContainer: {
-        display: 'flex',
-        alignItems: 'center',
-        margin: '5px 0',
-        justifyContent: 'end',
-    },
-    brushWidthText: {
-        width: '130px',
-    },
-    range: {
-        flexGrow: 1,
-        display: 'inline-block',
-        marginLeft: '10px',
-    },
-    number: {
-        width: '60px',
-        marginLeft: '10px',
-    },
-});

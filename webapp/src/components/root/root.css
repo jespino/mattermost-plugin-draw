@@ -1,0 +1,37 @@
+.brushWidthContainer {
+    display: flex;
+    align-items: center;
+    margin: 5px 0;
+    justify-content: end;
+}
+
+.brushWidthContainer i {
+    font-size: 20px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.brushWidthContainer input[type=file] {
+    display: none;
+}
+
+.brushWidthContainer span {
+    width: 130px;
+}
+
+.range {
+    flex-grow: 1;
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.number {
+    width: 60px;
+    margin-left: 10px;
+}
+
+.paintContainer {
+    max-width: 565px;
+    max-height: 410px;
+    overflow: auto;
+}

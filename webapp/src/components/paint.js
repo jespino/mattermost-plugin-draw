@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
+import styles from './paint.css';
+
 export default class ReactPaint extends Component {
     static propTypes = {
         className: PropTypes.string,
@@ -105,7 +107,7 @@ export default class ReactPaint extends Component {
             <div className={className}>
                 <canvas
                     ref={this.canvas}
-                    className={`${className}__canvas`}
+                    className={`${className}__canvas ` + styles.canvas}
 
                     width={this.state.width}
                     height={this.state.height}
@@ -115,8 +117,6 @@ export default class ReactPaint extends Component {
                     style={{
                         width: this.state.width,
                         height: this.state.height,
-                        background: 'white',
-                        border: '1px solid #ccc',
                     }}
 
                     onMouseDown={this.mouseDown}
