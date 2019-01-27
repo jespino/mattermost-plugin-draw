@@ -45,6 +45,7 @@ export default class ReactPaint extends Component {
         this.setState({width: image.width, height: image.height});
         const context = this.getContext();
         context.drawImage(image, 0, 0);
+        this.onDraw();
     }
 
     mouseDown = (e) => {
@@ -99,9 +100,7 @@ export default class ReactPaint extends Component {
     }
 
     render() {
-        const {
-            className,
-        } = this.props;
+        const {className} = this.props;
 
         return (
             <div className={className}>
@@ -117,6 +116,7 @@ export default class ReactPaint extends Component {
                     style={{
                         width: this.state.width,
                         height: this.state.height,
+                        cursor: 'crosshair',
                     }}
 
                     onMouseDown={this.mouseDown}
