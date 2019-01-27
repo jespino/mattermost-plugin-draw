@@ -1,0 +1,9 @@
+{
+    "id": "com.mattermost.draw-plugin",
+    "name": "Draw Plugin",
+    "description": "This plugin allows you to draw directly in the application.",
+    "version": "0.0.1",
+    "webapp": {
+        "bundle_path": "webapp/dist/main.js"
+    }
+}
