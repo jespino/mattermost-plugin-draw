@@ -4,18 +4,12 @@ import PropTypes from 'prop-types';
 export default class ReactPaint extends Component {
     static propTypes = {
         className: PropTypes.string,
-        style: PropTypes.object.isRequired,
-        height: PropTypes.number,
-        width: PropTypes.number,
         brushCol: PropTypes.string,
         lineWidth: PropTypes.number,
         onDraw: PropTypes.func,
     };
     static defaultProps = {
         className: 'react-paint',
-        style: {},
-        height: 500,
-        width: 500,
         brushCol: '#ff6347',
         onDraw: () => null,
     };
@@ -26,6 +20,8 @@ export default class ReactPaint extends Component {
         this.state = {
             mouseDown: false,
             mouseLoc: [0, 0],
+            width: 550,
+            height: 405,
         };
         this.canvas = React.createRef();
     }
@@ -42,6 +38,12 @@ export default class ReactPaint extends Component {
     }
 
     getBB = () => this.canvas.current.getBoundingClientRect();
+
+    setImage(image) {
+        this.setState({width: image.width, height: image.height});
+        const context = this.getContext();
+        context.drawImage(image, 0, 0);
+    }
 
     mouseDown = (e) => {
         const context = this.getContext();
@@ -77,7 +79,7 @@ export default class ReactPaint extends Component {
             const bb = this.getBB();
             if (
                 (e.pageX || e.touches[0].pageX) > bb.left &&
-                (e.pageY || e.touches[0].pageY) < (bb.top + this.props.height)
+                (e.pageY || e.touches[0].pageY) < (bb.top + this.canvas.current.height)
             ) {
                 const context = this.getContext();
                 context.lineTo(
@@ -96,9 +98,6 @@ export default class ReactPaint extends Component {
 
     render() {
         const {
-            width,
-            height,
-            style,
             className,
         } = this.props;
 
@@ -108,17 +107,17 @@ export default class ReactPaint extends Component {
                     ref={this.canvas}
                     className={`${className}__canvas`}
 
-                    width={width}
-                    height={height}
+                    width={this.state.width}
+                    height={this.state.height}
 
                     onClick={this.onDraw}
 
-                    style={
-                        Object.assign({}, style, {
-                            width: this.props.width,
-                            height: this.props.height,
-                        })
-                    }
+                    style={{
+                        width: this.state.width,
+                        height: this.state.height,
+                        background: 'white',
+                        border: '1px solid #ccc',
+                    }}
 
                     onMouseDown={this.mouseDown}
                     onTouchStart={this.mouseDown}

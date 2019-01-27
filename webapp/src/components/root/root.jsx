@@ -35,12 +35,30 @@ export default class Root extends React.Component {
         imageData: null,
     };
 
+    constructor(props) {
+        super(props);
+        this.paintRef = React.createRef();
+        this.inputFileRef = React.createRef();
+    }
+
     setColor = (color) => {
         this.setState({brushColor: color});
     }
 
     setLineWidth = (e) => {
         this.setState({lineWidth: e.target.value});
+    }
+
+    handleImage = (e) => {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            var img = new Image();
+            img.onload = () => {
+                this.paintRef.current.setImage(img);
+            };
+            img.src = event.target.result;
+        };
+        reader.readAsDataURL(e.target.files[0]);
     }
 
     generateId = () => {
@@ -110,6 +128,17 @@ export default class Root extends React.Component {
                         ]}
                     />
                     <div style={style.brushWidthContainer}>
+                        <input
+                            type='file'
+                            onChange={this.handleImage}
+                            style={{display: 'none'}}
+                            ref={this.inputFileRef}
+                        />
+                        <i
+                            className="fa fa-picture-o"
+                            style={{fontSize: '20px', marginRight: '10px', cursor: 'pointer'}}
+                            onClick={() => this.inputFileRef.current.click()}
+                        />
                         <span style={style.brushWidthText}>{'Brush Width:'}</span>
                         <input
                             type='number'
@@ -128,18 +157,21 @@ export default class Root extends React.Component {
                             style={style.range}
                         />
                     </div>
-                    <ReactPaint
+                    <div
                         style={{
-                            background: 'white',
-                            border: '1px solid #ccc',
+                            maxWidth: 565,
+                            maxHeight: 410,
+                            overflow: 'auto',
                         }}
-                        brushCol={this.state.brushColor.hex ? this.state.brushColor.hex : '#000000'}
-                        lineWidth={this.state.lineWidth}
-                        className='react-paint'
-                        height={410}
-                        width={565}
-                        onDraw={(imageData) => this.setState({imageData})}
-                    />
+                    >
+                        <ReactPaint
+                            ref={this.paintRef}
+                            brushCol={this.state.brushColor.hex ? this.state.brushColor.hex : '#000000'}
+                            lineWidth={this.state.lineWidth}
+                            className='react-paint'
+                            onDraw={(imageData) => this.setState({imageData})}
+                        />
+                    </div>
                 </Modal.Body>
                 <Modal.Footer>
                     <button
@@ -171,7 +203,7 @@ const getStyle = () => ({
         justifyContent: 'end',
     },
     brushWidthText: {
-        width: '120px',
+        width: '130px',
     },
     range: {
         flexGrow: 1,
