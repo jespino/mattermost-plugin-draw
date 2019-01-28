@@ -180,7 +180,7 @@ export default class Root extends React.Component {
                         disabled={this.state.imageData === null}
                         onClick={this.uploadDrawing}
                     >
-                        {'Uplaod'}
+                        {'Upload'}
                     </button>
                 </Modal.Footer>
             </Modal>
