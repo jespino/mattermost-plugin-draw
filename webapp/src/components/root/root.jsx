@@ -35,6 +35,14 @@ export default class Root extends React.Component {
         brushColor: '#000000',
         lineWidth: 2,
         imageData: null,
+        history: [
+            {
+                img: null,
+                width: 550,
+                height: 405,
+            },
+        ],
+        historyCursor: 0,
     };
 
     constructor(props) {
@@ -98,6 +106,51 @@ export default class Root extends React.Component {
         });
     }
 
+    onDraw = (imageData, imageHistoryEntry) => {
+        this.setState({
+            imageData,
+            history: [
+                imageHistoryEntry,
+                ...this.state.history.slice(this.state.historyCursor, 9),
+            ],
+            historyCursor: 0,
+        });
+    }
+
+    redo = () => {
+        const {history, historyCursor} = this.state;
+        if (this.canRedo()) {
+            const image = history[historyCursor - 1];
+            this.paintRef.current.restoreImageHistory(image);
+            const imageData = this.paintRef.current.restoreImageHistory(image);
+            this.setState({
+                imageData,
+                historyCursor: historyCursor - 1,
+            });
+        }
+    }
+
+    undo = () => {
+        const {history, historyCursor} = this.state;
+        if (this.canUndo()) {
+            const image = history[historyCursor + 1];
+            const imageData = this.paintRef.current.restoreImageHistory(image);
+            this.setState({
+                imageData,
+                historyCursor: historyCursor + 1,
+            });
+        }
+    }
+
+    canUndo = () => {
+        const {history, historyCursor} = this.state;
+        return history.length > (historyCursor + 1);
+    }
+
+    canRedo = () => {
+        return this.state.historyCursor > 0;
+    }
+
     render() {
         const {visible, close} = this.props;
         return (
@@ -129,13 +182,23 @@ export default class Root extends React.Component {
                         ]}
                     />
                     <div className={styles.brushWidthContainer}>
+                        <i
+                            className='fa fa-undo'
+                            onClick={this.undo}
+                            style={{opacity: this.canUndo() ? 1 : 0.5}}
+                        />
+                        <i
+                            className='fa fa-repeat'
+                            style={{opacity: this.canRedo() ? 1 : 0.5}}
+                            onClick={this.redo}
+                        />
                         <input
                             type='file'
                             onChange={this.handleImage}
                             ref={this.inputFileRef}
                         />
                         <i
-                            className="fa fa-picture-o"
+                            className='fa fa-picture-o'
                             onClick={() => this.inputFileRef.current.click()}
                         />
                         <span>{'Brush Width:'}</span>
@@ -162,7 +225,7 @@ export default class Root extends React.Component {
                             brushCol={this.state.brushColor.hex ? this.state.brushColor.hex : '#000000'}
                             lineWidth={this.state.lineWidth}
                             className='react-paint'
-                            onDraw={(imageData) => this.setState({imageData})}
+                            onDraw={this.onDraw}
                         />
                     </div>
                 </Modal.Body>

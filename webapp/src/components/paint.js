@@ -95,8 +95,28 @@ export default class ReactPaint extends Component {
         }
     }
 
+    restoreImageHistory(image) {
+        const context = this.getContext();
+        this.setState({width: image.width, height: image.height});
+        if (image.img === null) {
+            context.clearRect(0, 0, image.width, image.height);
+        } else {
+            context.putImageData(image.img, 0, 0);
+        }
+        return this.canvas.current.toDataURL();
+    }
+
     onDraw = () => {
-        this.props.onDraw(this.canvas.current.toDataURL());
+        const context = this.getContext();
+
+        this.props.onDraw(
+            this.canvas.current.toDataURL(),
+            {
+                img: context.getImageData(0, 0, this.state.width, this.state.height),
+                width: this.state.width,
+                height: this.state.height,
+            }
+        );
     }
 
     render() {
