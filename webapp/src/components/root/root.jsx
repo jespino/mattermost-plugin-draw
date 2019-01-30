@@ -102,7 +102,7 @@ export default class Root extends React.Component {
                 message: '',
                 user_id: this.props.userId,
             }, data.body.file_infos);
-            this.props.close();
+            this.close();
         });
     }
 
@@ -150,13 +150,30 @@ export default class Root extends React.Component {
     canRedo = () => {
         return this.state.historyCursor > 0;
     }
+    
+    close = () => {
+        this.setState({
+            brushColor: '#000000',
+            lineWidth: 2,
+            imageData: null,
+            history: [
+                {
+                    img: null,
+                    width: 550,
+                    height: 405,
+                },
+            ],
+            historyCursor: 0,
+        });
+        this.props.close();
+    }
 
     render() {
-        const {visible, close} = this.props;
+        const {visible} = this.props;
         return (
             <Modal
                 show={visible}
-                onHide={close}
+                onHide={this.close}
             >
                 <Modal.Header
                     closeButton={true}
@@ -233,7 +250,7 @@ export default class Root extends React.Component {
                     <button
                         type='button'
                         className='btn btn-cancel'
-                        onClick={close}
+                        onClick={this.close}
                     >
                         {'Cancel'}
                     </button>
