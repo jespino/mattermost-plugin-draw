@@ -2,7 +2,7 @@
     "id": "com.mattermost.draw-plugin",
     "name": "Draw Plugin",
     "description": "This plugin allows you to draw directly in the application.",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "server": {
         "executables": {
             "linux-amd64": "server/dist/plugin-linux-amd64",
