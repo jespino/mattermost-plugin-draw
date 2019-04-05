@@ -3,7 +3,7 @@ import React from 'react';
 import {id as pluginId} from './manifest';
 
 import Root from './components/root';
-import {fileUploadMethodAction, getStatus} from './actions';
+import {fileUploadMethodAction} from './actions';
 import reducer from './reducer';
 
 export default class DemoPlugin {
@@ -17,14 +17,6 @@ export default class DemoPlugin {
         );
 
         registry.registerReducer(reducer);
-
-        // Immediately fetch the current plugin status.
-        store.dispatch(getStatus());
-
-        // Fetch the current status whenever we recover an internet connection.
-        registry.registerReconnectHandler(() => {
-            store.dispatch(getStatus());
-        });
     }
 
     uninitialize() {

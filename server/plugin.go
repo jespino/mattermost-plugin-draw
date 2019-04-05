@@ -20,7 +20,7 @@ type Plugin struct {
 }
 
 func (p *Plugin) ServeHTTP(c *plugin.Context, w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "")
+	fmt.Fprintf(w, "{}")
 }
 
 // See https://developers.mattermost.com/extend/plugins/server/reference/

@@ -4,7 +4,7 @@ import {FileTypes} from 'mattermost-redux/action_types';
 import {Client4} from 'mattermost-redux/client';
 
 import {id as pluginId} from './manifest';
-import {STATUS_CHANGE, OPEN_ROOT_MODAL, CLOSE_ROOT_MODAL} from './action_types';
+import {OPEN_ROOT_MODAL, CLOSE_ROOT_MODAL} from './action_types';
 
 export const openRootModal = () => (dispatch) => {
     dispatch({
@@ -35,20 +35,6 @@ export const getPluginServerRoute = (state) => {
 
     return basePath + '/plugins/' + pluginId;
 };
-
-export const getStatus = () => async (dispatch, getState) => {
-    fetch(getPluginServerRoute(getState()) + '/status').then((r) => r.json()).then((r) => {
-        dispatch({
-            type: STATUS_CHANGE,
-            data: r.enabled,
-        });
-    });
-};
-
-export const websocketStatusChange = (message) => (dispatch) => dispatch({
-    type: STATUS_CHANGE,
-    data: message.data.enabled,
-});
 
 export function uploadFile(file, name, channelId, rootId, clientId) {
     return (dispatch) => {
