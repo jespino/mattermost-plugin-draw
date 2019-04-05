@@ -1,5 +1,7 @@
 <h1 align="center">
- :paintbrush: Mattermost Draw Plugin :paintbrush:
+  <img src="./images/plugin-draw-logo.png" alt="Draw plugin logo" width="300">
+  <br/>
+  Mattermost Draw Plugin
 </h1>
 
 This plugin will allow you to draw direcly in mattermost and upload the result
