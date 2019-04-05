@@ -1,4 +1,6 @@
-# Mattermost Draw Plugin :paintbrush:
+<h1 align="center">
+ :paintbrush: Mattermost Draw Plugin :paintbrush:
+</h1>
 
 This plugin will allow you to draw direcly in mattermost and upload the result
 as an image attachment.
