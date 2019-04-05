@@ -9,6 +9,8 @@ export default class ReactPaint extends Component {
         brushCol: PropTypes.string,
         lineWidth: PropTypes.number,
         onDraw: PropTypes.func,
+        initialWidth: PropTypes.number,
+        initialHeight: PropTypes.number,
     };
     static defaultProps = {
         className: 'react-paint',
@@ -22,8 +24,8 @@ export default class ReactPaint extends Component {
         this.state = {
             mouseDown: false,
             mouseLoc: [0, 0],
-            width: 550,
-            height: 405,
+            width: this.props.initialWidth,
+            height: this.props.initialHeight,
         };
         this.canvas = React.createRef();
     }

@@ -7,6 +7,8 @@ import ReactPaint from '../paint';
 
 import styles from './root.css';
 
+const SMALL_SCREEN_WIDTH = 900;
+
 function dataURItoFile(dataURI) {
     var byteString = atob(dataURI.split(',')[1]);
     var ab = new ArrayBuffer(byteString.length);
@@ -31,24 +33,34 @@ export default class Root extends React.Component {
         createPost: PropTypes.func.isRequired,
     };
 
-    state = {
-        brushColor: '#000000',
-        lineWidth: 2,
-        imageData: null,
-        history: [
-            {
-                img: null,
-                width: 550,
-                height: 405,
-            },
-        ],
-        historyCursor: 0,
-    };
-
     constructor(props) {
         super(props);
         this.paintRef = React.createRef();
         this.inputFileRef = React.createRef();
+        let width = 850;
+        let height = 600;
+        if (this.isSmall()) {
+            width = window.innerWidth - 50;
+            height = window.innerHeight - 250;
+        }
+
+        this.state = {
+            brushColor: '#000000',
+            lineWidth: 2,
+            imageData: null,
+            history: [
+                {
+                    img: null,
+                    width,
+                    height,
+                },
+            ],
+            historyCursor: 0,
+        };
+    }
+
+    isSmall = () => {
+        return window.innerWidth <= SMALL_SCREEN_WIDTH;
     }
 
     setColor = (color) => {
@@ -150,8 +162,14 @@ export default class Root extends React.Component {
     canRedo = () => {
         return this.state.historyCursor > 0;
     }
-    
+
     close = () => {
+        let width = 850;
+        let height = 600;
+        if (this.isSmall()) {
+            width = window.innerWidth - 50;
+            height = window.innerHeight - 250;
+        }
         this.setState({
             brushColor: '#000000',
             lineWidth: 2,
@@ -159,8 +177,8 @@ export default class Root extends React.Component {
             history: [
                 {
                     img: null,
-                    width: 550,
-                    height: 405,
+                    width,
+                    height,
                 },
             ],
             historyCursor: 0,
@@ -174,6 +192,7 @@ export default class Root extends React.Component {
             <Modal
                 show={visible}
                 onHide={this.close}
+                className={this.isSmall() ? styles.modalSmall : styles.modal}
             >
                 <Modal.Header
                     closeButton={true}
@@ -189,7 +208,7 @@ export default class Root extends React.Component {
                         onChangeComplete={this.setColor}
                         circleSize={20}
                         circleSpacing={0}
-                        width={568}
+                        width={this.isSmall() ? window.innerWidth - 30 : 850}
                         colors={[
                             '#000000', '#f44336', '#e91e63', '#9c27b0',
                             '#673ab7', '#3f51b5', '#2196f3', '#03a9f4',
@@ -236,13 +255,15 @@ export default class Root extends React.Component {
                             className={styles.range}
                         />
                     </div>
-                    <div className={styles.paintContainer}>
+                    <div className={this.isSmall() ? styles.paintContainerSmall : styles.paintContainer}>
                         <ReactPaint
                             ref={this.paintRef}
                             brushCol={this.state.brushColor.hex ? this.state.brushColor.hex : '#000000'}
                             lineWidth={this.state.lineWidth}
                             className='react-paint'
                             onDraw={this.onDraw}
+                            initialWidth={this.isSmall() ? window.innerWidth - 50 : 850}
+                            initialHeight={this.isSmall() ? window.innerHeight - 250 : 600}
                         />
                     </div>
                 </Modal.Body>

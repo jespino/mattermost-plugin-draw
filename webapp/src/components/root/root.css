@@ -31,7 +31,21 @@
 }
 
 .paintContainer {
-    max-width: 565px;
-    max-height: 410px;
+    max-width: 865px;
+    max-height: 615px;
     overflow: auto;
+}
+
+.paintContainerSmall {
+    max-width: 100%;
+    max-height: 100%;
+    overflow: auto;
+}
+
+.modal :global .modal-dialog {
+    width: 900px;
+}
+
+.modalSmall :global .modal-dialog {
+    width: 100%;
 }
