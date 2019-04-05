@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="./images/plugin-draw-logo.png" alt="Draw plugin logo" width="300">
+  <img src="./images/plugin-draw-logo.png" alt="Draw plugin logo" width="200">
   <br/>
   Mattermost Draw Plugin
 </h1>
