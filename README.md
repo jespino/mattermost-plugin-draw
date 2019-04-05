@@ -6,7 +6,7 @@ as an image attachment.
 Besides allow you to open local images, edit them and upload.
 
 <p align="center">
-  <img src="./images/screenshot.png" alt="Draw plugin example" width="654" height="450">
+  <img src="./images/screenshot.png" alt="Draw plugin example" width="654">
 </p>
 
 ## Installation
