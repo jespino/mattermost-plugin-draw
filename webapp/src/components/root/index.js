@@ -2,9 +2,8 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {createPost} from 'mattermost-redux/actions/posts';
 
-import {closeRootModal, uploadFile} from 'actions';
+import {closeRootModal, uploadFile, createPost} from 'actions';
 import {isRootModalVisible} from 'selectors';
 
 import Root from './root';

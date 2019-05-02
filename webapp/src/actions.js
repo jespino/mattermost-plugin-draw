@@ -49,3 +49,20 @@ export function uploadFile(file, name, channelId, rootId, clientId) {
             accept('application/json');
     };
 }
+
+export function createPost(post, files = []) {
+    return (dispatch, getState) => {
+        const state = getState();
+        const currentUserId = state.entities.users.currentUserId;
+
+        const timestamp = Date.now();
+        const newPost = {
+            ...post,
+            pending_post_id: post.pending_post_id || `${currentUserId}:${timestamp}`,
+            create_at: 0,
+            update_at: 0,
+            file_ids: files.map((file) => file.id),
+        };
+        Client4.createPost({...newPost, create_at: 0});
+    };
+}
