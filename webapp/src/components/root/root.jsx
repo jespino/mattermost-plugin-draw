@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Modal} from 'react-bootstrap';
+import Modal from 'react-modal';
 import {CirclePicker} from 'react-color';
 
 import ReactPaint from '../paint';
@@ -8,6 +8,27 @@ import ReactPaint from '../paint';
 import styles from './root.css';
 
 const SMALL_SCREEN_WIDTH = 900;
+
+const customStyles = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+    position: 'absolute',
+    border: '1px solid #ccc',
+    borderRadius: '5px',
+    padding: '10px',
+    background: 'white',
+  },
+  overlay: {
+    zIndex: 1000,
+  }
+};
+
+Modal.setAppElement('#root');
 
 function dataURItoFile(dataURI) {
     var byteString = atob(dataURI.split(',')[1]);
@@ -190,18 +211,20 @@ export default class Root extends React.Component {
         const {visible} = this.props;
         return (
             <Modal
-                show={visible}
-                onHide={this.close}
+                isOpen={visible}
+                onRequestClose={this.close}
                 className={this.isSmall() ? styles.modalSmall : styles.modal}
+                style={customStyles}
             >
-                <Modal.Header
-                    closeButton={true}
-                >
-                    <h4 className='modal-title'>
-                        {'Upload drawing'}
-                    </h4>
-                </Modal.Header>
-                <Modal.Body>
+                <h4 className={styles.modalTitle}>
+                    {'Upload drawing'}
+                </h4>
+                <i
+                    onClick={this.close}
+                    className={`icon icon-close ${styles.iconClose}`}
+                    aria-label="Close Icon"
+                />
+                <div>
                     <CirclePicker
                         styles={{default: {card: {justifyContent: 'space-between'}}}}
                         color={this.state.brushColor}
@@ -266,8 +289,8 @@ export default class Root extends React.Component {
                             initialHeight={this.isSmall() ? window.innerHeight - 250 : 600}
                         />
                     </div>
-                </Modal.Body>
-                <Modal.Footer>
+                </div>
+                <div className={styles.actions}>
                     <button
                         type='button'
                         className='btn btn-cancel'
@@ -276,6 +299,7 @@ export default class Root extends React.Component {
                         {'Cancel'}
                     </button>
                     <button
+                        style={{marginLeft: 10}}
                         type='button'
                         className='btn btn-primary'
                         disabled={this.state.imageData === null}
@@ -283,7 +307,7 @@ export default class Root extends React.Component {
                     >
                         {'Upload'}
                     </button>
-                </Modal.Footer>
+                </div>
             </Modal>
         );
     }

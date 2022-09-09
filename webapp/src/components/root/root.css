@@ -49,3 +49,31 @@
 .modalSmall :global .modal-dialog {
     width: 100%;
 }
+
+.iconClose {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 24px;
+    cursor: pointer;
+    opacity: 0.5;
+    margin: 5px;
+}
+
+.iconClose:hover {
+    opacity: 0.8;
+    background-color: #ccc;
+    border-radius: 5px;
+}
+
+.modalTitle {
+    margin-top: 5px;
+    margin-bottom: 15px;
+    font-size: 24px;
+}
+
+.actions {
+    display: flex;
+    justify-content: end;
+}
